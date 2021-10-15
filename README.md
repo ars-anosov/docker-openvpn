@@ -36,6 +36,7 @@ sudo ls -la /var/lib/docker/volumes/$OVPN_DATA/_data
 cd docker-openvpn
 
 sudo docker images
+sudo docker build --network host -t kylemanna/openvpn .
 ```
 
 
