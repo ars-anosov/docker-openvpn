@@ -17,6 +17,9 @@ OpenVPN server in a Docker container complete with an EasyRSA PKI CA.
 Переменная OVPN_DATA дальше везде используется. Ее всегда сначала вбиваем.
 ```bash
 OVPN_DATA="ovpn-data"
+
+# Включить FORWARD в системе
+iptables -P FORWARD ACCEPT
 ```
 
 
@@ -114,6 +117,7 @@ sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient
 
 
 # assign static clients IP
+```bash
 sudo -i
 OVPN_DATA="ovpn-data"
 
@@ -121,3 +125,4 @@ ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/pki/issued/
 ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/
 
 echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/home_ars
+```
