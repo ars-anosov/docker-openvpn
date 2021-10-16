@@ -65,7 +65,7 @@ sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig
     -e "topology subnet"
 
 sudo vi /var/lib/docker/volumes/$OVPN_DATA/_data/openvpn.conf
-# dev tap0            # это ключ (-t)
+# dev tap0            # это ключ (-t) (стандартный L3 = tun0)
 # client-to-client    # это ключ (-c)
 
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
