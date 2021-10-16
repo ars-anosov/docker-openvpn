@@ -57,7 +57,6 @@ sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig
     -C AES-256-CBC \
     -a SHA1 \
     -z \
-    -t \
     -c \
     -e "script-security 2" \
     -e "client-connect /etc/openvpn/client_connect.sh" \
