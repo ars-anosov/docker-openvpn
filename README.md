@@ -19,7 +19,7 @@ OpenVPN server in a Docker container complete with an EasyRSA PKI CA.
 OVPN_DATA="ovpn-data"
 
 # Включить FORWARD в системе
-iptables -P FORWARD ACCEPT
+sudo iptables -P FORWARD ACCEPT
 ```
 
 
@@ -76,6 +76,7 @@ sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initp
 
 # my_scripts
 ```bash
+# Поправить адрес почтовой рассылки
 sudo cp my_scripts/* /var/lib/docker/volumes/$OVPN_DATA/_data/
 sudo chmod +x /var/lib/docker/volumes/$OVPN_DATA/_data/client_connect.sh
 sudo chmod +x /var/lib/docker/volumes/$OVPN_DATA/_data/client_disconnect.sh
