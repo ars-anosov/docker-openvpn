@@ -111,8 +111,8 @@ sudo docker ps -a
 
 # OVPN-file generate
 ```bash
-sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full home_ars nopass
-sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient home_ars > ~/docker-openvpn/home_ars.ovpn
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full vps_ars nopass
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient vps_ars > ~/docker-openvpn/vps_ars.ovpn
 ```
 
 
@@ -125,5 +125,5 @@ OVPN_DATA="ovpn-data"
 ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/pki/issued/
 ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/
 
-echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/home_ars
+echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/vps_ars
 ```
