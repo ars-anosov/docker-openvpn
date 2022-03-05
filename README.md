@@ -28,8 +28,9 @@ sudo iptables -P FORWARD ACCEPT
 ```bash
 sudo docker volume ls
 sudo docker volume create --name $OVPN_DATA
+# sudo docker volume rm $OVPN_DATA
 
-sudo ls -la /var/lib/docker/volumes/$OVPN_DATA/_data
+sudo ls -la /var/lib/docker/volumes/$OVPN_DATA
 ```
 
 
@@ -110,8 +111,8 @@ sudo docker ps -a
 
 # OVPN-file generate
 ```bash
-sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full vps_ars nopass
-sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient vps_ars > ~/docker-openvpn/vps_ars.ovpn
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full helsinki_ars nopass
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient helsinki_ars > ~/docker-openvpn/helsinki_ars.ovpn
 ```
 
 
@@ -124,5 +125,5 @@ OVPN_DATA="ovpn-data"
 ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/pki/issued/
 ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/
 
-echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/vps_ars
+echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/helsinki_ars
 ```
