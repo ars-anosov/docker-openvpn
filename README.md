@@ -52,7 +52,7 @@ sudo ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/
 # sudo rm /var/lib/docker/volumes/$OVPN_DATA/_data/ovpn_env.sh
 
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig \
-    -u udp://65.108.82.45:1194 \
+    -u udp://91.228.154.13:1194 \
     -s 192.168.201.0/28 \
     -r 192.168.201.0/28 \
     -C AES-256-CBC \
@@ -100,7 +100,7 @@ sudo docker run \
     --name ovpn443 \
     -v $OVPN_DATA:/etc/openvpn \
     -d \
-    -p 443:1194/tcp \
+    -p 8443:1194/tcp \
     --privileged \
     kylemanna/openvpn ovpn_run --proto tcp
 
@@ -111,8 +111,8 @@ sudo docker ps -a
 
 # OVPN-file generate
 ```bash
-sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full helsinki_ars nopass
-sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient helsinki_ars > ~/docker-openvpn/helsinki_ars.ovpn
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_ars nopass
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_ars > ~/docker-openvpn/frankfurt_ars.ovpn
 ```
 
 
@@ -125,5 +125,5 @@ OVPN_DATA="ovpn-data"
 ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/pki/issued/
 ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/
 
-echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/helsinki_ars
+echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_ars
 ```
