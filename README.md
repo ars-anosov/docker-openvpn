@@ -52,7 +52,7 @@ sudo ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/
 # sudo rm /var/lib/docker/volumes/$OVPN_DATA/_data/ovpn_env.sh
 
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig \
-    -u udp://91.228.154.13:1194 \
+    -u udp://91.228.154.13:443 \
     -s 192.168.201.0/28 \
     -r 192.168.201.0/28 \
     -C AES-256-CBC \
@@ -105,9 +105,9 @@ sudo docker run \
     --name ovpn443 \
     -v $OVPN_DATA:/etc/openvpn \
     -d \
-    -p 8443:1194/tcp \
+    -p 443:1194/udp \
     --privileged \
-    kylemanna/openvpn ovpn_run --proto tcp
+    kylemanna/openvpn ovpn_run --proto udp
 
 sudo docker ps -a
 ```
