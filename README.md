@@ -57,7 +57,6 @@ sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig
     -r 192.168.201.0/28 \
     -C AES-256-CBC \
     -a SHA1 \
-    -z \
     -c \
     -e "script-security 2" \
     -e "client-connect /etc/openvpn/client_connect.sh" \
@@ -88,6 +87,12 @@ sudo vi /var/lib/docker/volumes/$OVPN_DATA/_data/msmtp.conf
 
 # start
 ```bash
+sudo vi /var/lib/docker/volumes/$OVPN_DATA/_data/openvpn.conf
+# удалить
+comp-lzo
+# добваить
+data-ciphers-fallback AES-256-CBC
+
 sudo docker run \
     --name ovpn \
     --net=host \
@@ -113,6 +118,14 @@ sudo docker ps -a
 ```bash
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_ars nopass
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_ars > ~/docker-openvpn/frankfurt_ars.ovpn
+
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_lexa nopass
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_lexa > ~/docker-openvpn/frankfurt_lexa.ovpn
+
+vi ~/docker-openvpn/frankfurt_lexa.ovpn
+# добавить в конфиг клиента (проверить tcp и порт)
+data-ciphers-fallback AES-256-CBC
+auth-nocache
 ```
 
 
@@ -126,4 +139,5 @@ ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/pki/issued/
 ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/
 
 echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_ars
+echo "ifconfig-push 192.168.201.6 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_lexa
 ```
