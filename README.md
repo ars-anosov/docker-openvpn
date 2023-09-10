@@ -141,3 +141,39 @@ ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/
 echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_ars
 echo "ifconfig-push 192.168.201.6 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_lexa
 ```
+
+
+
+# Pluggable Transports
+```bash
+# https://go.dev/doc/install
+	sudo -i
+	cd /usr/src
+	wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
+	rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
+# Ctrl+D
+export PATH=$PATH:/usr/local/go/bin
+go version
+
+
+
+# https://www.pluggabletransports.info/implement/openvpn/
+# https://www.pluggabletransports.info/implement/shapeshifter/
+
+cd ~
+git clone https://github.com/OperatorFoundation/shapeshifter-dispatcher
+cd ~/shapeshifter-dispatcher
+go build
+
+
+
+cd ~/shapeshifter-dispatcher
+./shapeshifter-dispatcher -generateConfig -transport shadow -serverIP 91.228.154.13:8443
+
+Server
+./shapeshifter-dispatcher -server -transparent -state state -transports shadow -target 91.228.154.13:1194 -bindaddr shadow-91.228.154.13:8443 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
+
+Client
+./shapeshifter-dispatcher -client -transparent -state state -transports shadow -proxylistenaddr 127.0.0.1:1194 -optionsFile ShadowClientConfig.json -logLevel DEBUG -enableLogging
+
+```
