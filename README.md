@@ -118,15 +118,42 @@ sudo docker ps -a
 # OVPN-file generate
 ```bash
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_ars nopass
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_ket nopass
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_alex nopass
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_tema nopass
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_lexa nopass
+
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_ars > ~/docker-openvpn/frankfurt_ars.ovpn
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_ket > ~/docker-openvpn/frankfurt_ket.ovpn
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_alex > ~/docker-openvpn/frankfurt_alex.ovpn
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_tema > ~/docker-openvpn/frankfurt_tema.ovpn
+sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_lexa > ~/docker-openvpn/frankfurt_lexa.ovpn
 
 # добавить в конфиг клиента (проверить tcp и порт)
 echo "
 data-ciphers-fallback AES-256-CBC
 auth-nocache
-" >> ~/docker-openvpn/frankfurt_ars.ovpn 
+" >> ~/docker-openvpn/frankfurt_ars.ovpn
 
-cat ~/docker-openvpn/frankfurt_ars.ovpn
+echo "
+data-ciphers-fallback AES-256-CBC
+auth-nocache
+" >> ~/docker-openvpn/frankfurt_ket.ovpn 
+
+echo "
+data-ciphers-fallback AES-256-CBC
+auth-nocache
+" >> ~/docker-openvpn/frankfurt_alex.ovpn 
+
+echo "
+data-ciphers-fallback AES-256-CBC
+auth-nocache
+" >> ~/docker-openvpn/frankfurt_tema.ovpn 
+
+echo "
+data-ciphers-fallback AES-256-CBC
+auth-nocache
+" >> ~/docker-openvpn/frankfurt_lexa.ovpn 
 ```
 
 
