@@ -52,7 +52,7 @@ sudo ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/
 # sudo rm /var/lib/docker/volumes/$OVPN_DATA/_data/ovpn_env.sh
 
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig \
-    -u udp://91.228.154.13:443 \
+    -u tcp://5.187.4.237:443 \
     -s 192.168.201.0/28 \
     -r 192.168.201.0/28 \
     -C AES-256-CBC \
@@ -98,6 +98,7 @@ sudo docker run \
     --net=host \
     -v $OVPN_DATA:/etc/openvpn \
     -d \
+    -p 443:1194/tcp \
     --cap-add=NET_ADMIN \
     kylemanna/openvpn
 
@@ -105,9 +106,9 @@ sudo docker run \
     --name ovpn443 \
     -v $OVPN_DATA:/etc/openvpn \
     -d \
-    -p 443:1194/udp \
+    -p 443:1194/tcp \
     --privileged \
-    kylemanna/openvpn ovpn_run --proto udp
+    kylemanna/openvpn ovpn_run
 
 sudo docker ps -a
 ```
@@ -119,13 +120,13 @@ sudo docker ps -a
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_ars nopass
 sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_ars > ~/docker-openvpn/frankfurt_ars.ovpn
 
-sudo docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full frankfurt_lexa nopass
-sudo docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient frankfurt_lexa > ~/docker-openvpn/frankfurt_lexa.ovpn
-
-vi ~/docker-openvpn/frankfurt_lexa.ovpn
 # добавить в конфиг клиента (проверить tcp и порт)
+echo "
 data-ciphers-fallback AES-256-CBC
 auth-nocache
+" >> ~/docker-openvpn/frankfurt_ars.ovpn 
+
+cat ~/docker-openvpn/frankfurt_ars.ovpn
 ```
 
 
@@ -139,6 +140,9 @@ ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/pki/issued/
 ls -la /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/
 
 echo "ifconfig-push 192.168.201.2 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_ars
+echo "ifconfig-push 192.168.201.3 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_ket
+echo "ifconfig-push 192.168.201.4 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_alex
+echo "ifconfig-push 192.168.201.5 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_tema
 echo "ifconfig-push 192.168.201.6 255.255.255.240" > /var/lib/docker/volumes/$OVPN_DATA/_data/ccd/frankfurt_lexa
 ```
 
@@ -168,10 +172,10 @@ go build
 
 
 cd ~/shapeshifter-dispatcher
-./shapeshifter-dispatcher -generateConfig -transport shadow -serverIP 91.228.154.13:8443
+./shapeshifter-dispatcher -generateConfig -transport shadow -serverIP 5.187.4.237:8443
 
 Server
-./shapeshifter-dispatcher -server -transparent -state state -transports shadow -target 91.228.154.13:1194 -bindaddr shadow-91.228.154.13:8443 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
+./shapeshifter-dispatcher -server -transparent -state state -transports shadow -target 5.187.4.237:1194 -bindaddr shadow-5.187.4.237:8443 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
 
 Client
 ./shapeshifter-dispatcher -client -transparent -state state -transports shadow -proxylistenaddr 127.0.0.1:1194 -optionsFile ShadowClientConfig.json -logLevel DEBUG -enableLogging

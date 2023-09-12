@@ -10,4 +10,4 @@ function mail_input() {
 
 # /sbin/arp -i eth0 -d $ifconfig_pool_remote_ip
 
-mail_input ars.anosov@gmail.com | /usr/bin/msmtp --file=/etc/openvpn/msmtp.conf ars.anosov@gmail.com
+# mail_input ars.anosov@gmail.com | /usr/bin/msmtp --file=/etc/openvpn/msmtp.conf ars.anosov@gmail.com
