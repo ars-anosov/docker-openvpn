@@ -1,0 +1,32 @@
+#!/bin/sh
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+echo 1 > /proc/sys/net/ipv4/conf/eth0/proxy_arp
+
+
+
+
+#########################################
+#               Netfilter               # 
+#########################################
+
+iptables -F
+iptables -t nat -F
+
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+
+
+
+
+####################
+# Pre/Post routing #
+########################################
+
+# --- [MASQUERADE] ---
+
+# docker default subnet (on docker0)
+iptables -t nat -A POSTROUTING -o eth0 -s 172.17.0.0/16 -j MASQUERADE
+# OpenVPN my subnet (on tun0)
+iptables -t nat -A POSTROUTING -o eth0 -s 192.168.201.0/28 -j MASQUERADE
